@@ -66,13 +66,10 @@ public class PlayerController : MonoBehaviour
         {
             Die();
         }
-        else if (other.gameObject.tag == "Hole")
+        else if (other.gameObject.tag == "Hole" && !other.gameObject.GetComponent<Floor>().floorCompleted)
         {
-            if (other.transform.gameObject.transform.position.y < rigidBody.position.y)
-            {
-                jumpsUsed = 0;
-                UpdateMaterial();
-            }
+            jumpsUsed = 0;
+            UpdateMaterial();
         }
     }
 }
