@@ -29,12 +29,12 @@ public class Floor : MonoBehaviour
         floorScale = 2 * cam.orthographicSize * cam.aspect;
         leftSide = GameObject.CreatePrimitive(PrimitiveType.Cube);
         leftSide.transform.SetParent(transform);
-        leftTrigger = leftSide.AddComponent<BoxCollider>();
+        leftTrigger = leftSide.GetComponent<BoxCollider>();
         leftTrigger.isTrigger = true;
         leftSide.tag = "Murderer";
         rightSide = GameObject.CreatePrimitive(PrimitiveType.Cube);
         rightSide.transform.SetParent(transform);
-        rightTrigger = rightSide.AddComponent<BoxCollider>();
+        rightTrigger = rightSide.GetComponent<BoxCollider>();
         rightTrigger.isTrigger = true;
         rightSide.tag = "Murderer";
         trigger = gameObject.AddComponent<BoxCollider>();
