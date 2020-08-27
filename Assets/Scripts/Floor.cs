@@ -60,7 +60,7 @@ public class Floor : MonoBehaviour
         rightSide.transform.position = new Vector3(position.x + rightX, position.y, position.z);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerExit(Collider other)
     {
         if (!floorCompleted)
         {
