@@ -20,7 +20,9 @@ public class Floor : MonoBehaviour
 
     float floorScale;
     float triggerScale;
-    bool hasGeneratedNext = false;
+
+    [HideInInspector]
+    public bool floorCompleted = false;
 
     void Start()
     {
@@ -44,7 +46,7 @@ public class Floor : MonoBehaviour
 
     public void Randomize()
     {
-        hasGeneratedNext = false;
+        floorCompleted = false;
         Vector3 position = transform.position;
         holeWidth = Random.Range(levelGenerator.minHoleWidth, levelGenerator.maxHoleWidth);
         holeX = Random.Range(holeWidth / 2.0f, 1 - holeWidth / 2.0f);
@@ -60,10 +62,10 @@ public class Floor : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (!hasGeneratedNext)
+        if (!floorCompleted)
         {
             levelGenerator.GenerateFloor();
-            hasGeneratedNext = true;
+            floorCompleted = true;
         }
     }
 }
