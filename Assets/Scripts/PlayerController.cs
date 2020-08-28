@@ -11,11 +11,10 @@ public class PlayerController : MonoBehaviour
     public float terminalVelocity;
     private int jumpsUsed = 0;
     private Vector3 startPos;
-    public Material noJump;
     public Material baseJump;
     public Material secondJump;
     public Material thirdJump;
-    public Material fourthJump;
+    public Material postFourthJump;
 
     // Start is called before the first frame update
     void Start()
@@ -53,8 +52,7 @@ public class PlayerController : MonoBehaviour
         if (jumpsUsed == 0) GetComponent<MeshRenderer>().material = baseJump;
         else if (jumpsUsed == 1) GetComponent<MeshRenderer>().material = secondJump;
         else if (jumpsUsed == 2) GetComponent<MeshRenderer>().material = thirdJump;
-        else if (jumpsUsed == 3) GetComponent<MeshRenderer>().material = fourthJump;
-        else GetComponent<MeshRenderer>().material = noJump;
+        else GetComponent<MeshRenderer>().material = postFourthJump;
     }
 
     public void Die()
