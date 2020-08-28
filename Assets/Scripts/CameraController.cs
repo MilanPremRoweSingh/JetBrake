@@ -3,55 +3,41 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
-{
+{ 
     public GameObject player;
     public float startZDist;
-    [Range(0,10.0f)]
-    public float smoothTime;
-    public float snapThreshold;
+    public float downSpeed;
 
     LevelGenerator levelGenerator;
-    GameObject anchor;
-    private float downVelocity = 0.0f;
-    float anchorOffset;
+    Camera cam;
+    GameObject deathBlock;
 
     // Start is called before the first frame update
     void Start()
     {
+        cam = GetComponent<Camera>();
+
         levelGenerator = FindObjectOfType<LevelGenerator>();
-        transform.position = player.transform.position + Vector3.back * startZDist;
-        anchor = player;
+        ResetPosition();
+
+        deathBlock = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        deathBlock.transform.localScale = new Vector3(cam.orthographicSize * 2 * cam.aspect, 0.1f, 1.0f);
+        deathBlock.transform.position = player.transform.position + Vector3.up * cam.orthographicSize;
+        deathBlock.GetComponent<MeshRenderer>().enabled = false;
+        deathBlock.GetComponent<BoxCollider>().isTrigger = true;
+        deathBlock.tag = "Murderer";
+        deathBlock.transform.SetParent(transform);
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        Vector3 newPosition = transform.position;
-        float anchorHeight = anchor.transform.position.y;
-
-        if (Mathf.Abs(anchorHeight - transform.position.y) < levelGenerator.maxFloorDistance + Mathf.Epsilon) 
-        {
-            newPosition.y = Mathf.SmoothDamp(transform.position.y, anchorHeight + anchorOffset, ref downVelocity, smoothTime);
-        }
-        else
-        {
-            newPosition.y = anchorHeight;
-        }
+        Vector3 newPosition = transform.position + Vector3.down * downSpeed * Time.fixedDeltaTime;
         transform.position = newPosition;
     }
 
-    public void SetAnchor(GameObject newAnchor)
+    public void ResetPosition()
     {
-        Debug.Log("Anchor Changed to " + newAnchor.name);
-        anchorOffset = 0.0f;
-        anchor = newAnchor;
-    }
-
-
-    public void SetAnchor(GameObject newAnchor, float newAnchorOffset)
-    {
-        Debug.Log("Anchor Changed to " + newAnchor.name);
-        anchorOffset = newAnchorOffset;
-        anchor = newAnchor;
+        transform.position = player.transform.position + Vector3.back * startZDist;
     }
 }

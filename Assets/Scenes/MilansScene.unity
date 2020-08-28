@@ -201,7 +201,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1109977877}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -51.3}
+  m_LocalPosition: {x: 0, y: 0, z: -48}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -220,9 +220,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 2005184088}
-  targetOffset: {x: 0, y: 0, z: -10}
   startZDist: 10
-  smoothTime: 0.0351
+  downSpeed: 5
 --- !u!1 &1269085402
 GameObject:
   m_ObjectHideFlags: 0
@@ -337,7 +336,6 @@ GameObject:
   - component: {fileID: 1616346831}
   - component: {fileID: 1616346830}
   - component: {fileID: 1616346829}
-  - component: {fileID: 1616346828}
   m_Layer: 0
   m_Name: Plane
   m_TagString: Untagged
@@ -345,20 +343,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!64 &1616346828
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1616346827}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!23 &1616346829
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -416,11 +400,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1616346827}
   m_LocalRotation: {x: -0.70710576, y: -0, z: -0, w: 0.70710784}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -16.3, z: 0}
   m_LocalScale: {x: 10, y: 10, z: 10}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_Father: {fileID: 2005184092}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!1 &2005184088
 GameObject:
@@ -513,11 +497,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2005184088}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 16.3, z: 0}
+  m_LocalPosition: {x: 0, y: 8.3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 1616346831}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &2005184093
 Rigidbody:
@@ -547,6 +532,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf0b2197a6d7af84081f623cc10af79a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cameraController: {fileID: 1109977881}
   levelGenerator: {fileID: 1561653773}
   terminalVelocity: 5
   noJump: {fileID: 0}

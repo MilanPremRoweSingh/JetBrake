@@ -84,6 +84,6 @@ public class Floor : MonoBehaviour
             next = levelGenerator.GenerateFloor();
             hasGeneratedNewFloor = true;
         }
-        cameraController.SetAnchor(gameObject, -levelGenerator.maxFloorDistance / 2);
+        //cameraController.SetAnchor(gameObject, -levelGenerator.maxFloorDistance / 2);
     }
 }

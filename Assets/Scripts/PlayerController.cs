@@ -64,7 +64,7 @@ public class PlayerController : MonoBehaviour
         jumpsUsed = 0;
         UpdateMaterial();
         levelGenerator.ResetFloors();
-        cameraController.SetAnchor(gameObject);
+        cameraController.ResetPosition();
     }
 
     private void OnTriggerEnter(Collider other)
