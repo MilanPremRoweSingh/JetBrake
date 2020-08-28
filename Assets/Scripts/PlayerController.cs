@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public CameraController cameraController;
     public LevelGenerator levelGenerator;
 
     private Rigidbody rigidBody;
@@ -63,6 +64,7 @@ public class PlayerController : MonoBehaviour
         jumpsUsed = 0;
         UpdateMaterial();
         levelGenerator.ResetFloors();
+        cameraController.SetAnchor(gameObject);
     }
 
     private void OnTriggerEnter(Collider other)

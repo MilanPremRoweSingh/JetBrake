@@ -5,7 +5,10 @@ using UnityEngine;
 public class Floor : MonoBehaviour
 {
     public static Camera cam;
+    public static CameraController cameraController;
     public static LevelGenerator levelGenerator;
+
+    private Floor next = null;
 
     // x in [0,1];  y in world space 
     float holeWidth;
@@ -29,20 +32,23 @@ public class Floor : MonoBehaviour
     void Start()
     {
         floorScale = 2 * cam.orthographicSize * cam.aspect;
+
         leftSide = GameObject.CreatePrimitive(PrimitiveType.Cube);
         leftSide.transform.SetParent(transform);
         leftTrigger = leftSide.GetComponent<BoxCollider>();
         leftTrigger.isTrigger = true;
         leftSide.tag = "Murderer";
+
         rightSide = GameObject.CreatePrimitive(PrimitiveType.Cube);
         rightSide.transform.SetParent(transform);
         rightTrigger = rightSide.GetComponent<BoxCollider>();
         rightTrigger.isTrigger = true;
         rightSide.tag = "Murderer";
+
+        // Trigger is resized and recentred based on holeWidth in Randomize()
         trigger = gameObject.AddComponent<BoxCollider>();
         trigger.isTrigger = true;
         trigger.tag = "Hole";
-        trigger.size = new Vector3(floorScale, levelGenerator.floorThickness, 1.0f);
         Randomize();
     }
 
@@ -61,6 +67,9 @@ public class Floor : MonoBehaviour
         rightSide.transform.localScale = new Vector3(floorScale, levelGenerator.floorThickness, 1.0f);
         float rightX = floorScale + leftX + floorScale * holeWidth;
         rightSide.transform.position = new Vector3(position.x + rightX, position.y, position.z);
+
+        trigger.size = new Vector3(holeWidth * floorScale, levelGenerator.floorThickness, 1.0f);
+        trigger.center = new Vector3(leftX + 0.5f * floorScale * (1 + holeWidth), 0.0f, 0.0f);
     }
 
     public void Reset()
@@ -72,8 +81,9 @@ public class Floor : MonoBehaviour
     {
         if (!hasGeneratedNewFloor)
         {
-            levelGenerator.GenerateFloor();
+            next = levelGenerator.GenerateFloor();
             hasGeneratedNewFloor = true;
         }
+        cameraController.SetAnchor(gameObject, -levelGenerator.maxFloorDistance / 2);
     }
 }

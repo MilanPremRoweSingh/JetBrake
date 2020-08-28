@@ -25,18 +25,21 @@ public class LevelGenerator : MonoBehaviour
 
         Floor.cam = cam;
         Floor.levelGenerator = this;
+        Floor.cameraController = FindObjectOfType<CameraController>();
 
+        GenerateFloor();
+        GenerateFloor();
         GenerateFloor();
     }
     
-    public void GenerateFloor()
+    public Floor GenerateFloor()
     {
         GameObject floor = new GameObject(string.Format("Floor {0}", floorList.Count + 1));
         floor.transform.position = new Vector3(transform.position.x, floorY, transform.position.z);
-        floor.AddComponent<Floor>();
         floorList.AddLast(floor);
         floorY -= Random.Range(minFloorDistance, maxFloorDistance);
         floor.transform.SetParent(transform);
+        return floor.AddComponent<Floor>();
     }
 
     public void ResetFloors()

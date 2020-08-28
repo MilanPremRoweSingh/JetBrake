@@ -5,20 +5,21 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     public GameObject player;
-    public Vector3 targetOffset;
-    public float startZDist = 10;
-    [Range(0,1.0f)]
+    public float startZDist;
+    [Range(0,10.0f)]
     public float smoothTime;
+    public float snapThreshold;
 
-    private float downVelocity = 0.0f;
-
+    LevelGenerator levelGenerator;
     GameObject anchor;
-    private float anchorHeight;
+    private float downVelocity = 0.0f;
+    float anchorOffset;
 
     // Start is called before the first frame update
     void Start()
     {
-        transform.position = player.transform.position + targetOffset;
+        levelGenerator = FindObjectOfType<LevelGenerator>();
+        transform.position = player.transform.position + Vector3.back * startZDist;
         anchor = player;
     }
 
@@ -26,13 +27,31 @@ public class CameraController : MonoBehaviour
     void FixedUpdate()
     {
         Vector3 newPosition = transform.position;
-        anchorHeight = anchor.transform.position.y;
-        newPosition.y = Mathf.SmoothDamp(transform.position.y, anchorHeight, ref downVelocity, smoothTime);
+        float anchorHeight = anchor.transform.position.y;
+
+        if (Mathf.Abs(anchorHeight - transform.position.y) < levelGenerator.maxFloorDistance + Mathf.Epsilon) 
+        {
+            newPosition.y = Mathf.SmoothDamp(transform.position.y, anchorHeight + anchorOffset, ref downVelocity, smoothTime);
+        }
+        else
+        {
+            newPosition.y = anchorHeight;
+        }
         transform.position = newPosition;
     }
 
-    void SetAnchor(GameObject newAnchor)
+    public void SetAnchor(GameObject newAnchor)
     {
+        Debug.Log("Anchor Changed to " + newAnchor.name);
+        anchorOffset = 0.0f;
+        anchor = newAnchor;
+    }
+
+
+    public void SetAnchor(GameObject newAnchor, float newAnchorOffset)
+    {
+        Debug.Log("Anchor Changed to " + newAnchor.name);
+        anchorOffset = newAnchorOffset;
         anchor = newAnchor;
     }
 }
