@@ -39,4 +39,16 @@ public class LevelGenerator : MonoBehaviour
         floor.transform.SetParent(transform);
     }
 
+    public void ResetFloors()
+    {
+        foreach (GameObject gameObject in floorList)
+        {
+            Floor floor = gameObject.GetComponent<Floor>();
+            if (floor)
+            {
+                floor.Reset();
+            }
+        }
+    }
+
 }

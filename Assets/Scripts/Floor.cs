@@ -22,7 +22,9 @@ public class Floor : MonoBehaviour
     float triggerScale;
 
     [HideInInspector]
-    public bool floorCompleted = false;
+    public bool hasGeneratedNewFloor = false;
+    [HideInInspector]
+    public bool hasResetPlayerJump = false;
 
     void Start()
     {
@@ -46,7 +48,8 @@ public class Floor : MonoBehaviour
 
     public void Randomize()
     {
-        floorCompleted = false;
+        hasGeneratedNewFloor = false;
+        hasResetPlayerJump = false;
         Vector3 position = transform.position;
         holeWidth = Random.Range(levelGenerator.minHoleWidth, levelGenerator.maxHoleWidth);
         holeX = Random.Range(holeWidth / 2.0f, 1 - holeWidth / 2.0f);
@@ -60,12 +63,17 @@ public class Floor : MonoBehaviour
         rightSide.transform.position = new Vector3(position.x + rightX, position.y, position.z);
     }
 
+    public void Reset()
+    {
+        hasResetPlayerJump = false;
+    }
+
     private void OnTriggerExit(Collider other)
     {
-        if (!floorCompleted)
+        if (!hasGeneratedNewFloor)
         {
             levelGenerator.GenerateFloor();
-            floorCompleted = true;
+            hasGeneratedNewFloor = true;
         }
     }
 }

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public LevelGenerator levelGenerator;
+
     private Rigidbody rigidBody;
     public float terminalVelocity;
     private int jumpsUsed = 0;
@@ -60,6 +62,7 @@ public class PlayerController : MonoBehaviour
         rigidBody.velocity = Vector3.zero;
         jumpsUsed = 0;
         UpdateMaterial();
+        levelGenerator.ResetFloors();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -68,10 +71,15 @@ public class PlayerController : MonoBehaviour
         {
             Die();
         }
-        else if (other.gameObject.tag == "Hole" && !other.gameObject.GetComponent<Floor>().floorCompleted)
+        else if (other.gameObject.tag == "Hole")
         {
-            jumpsUsed = 0;
-            UpdateMaterial();
+            Floor floor = other.gameObject.GetComponent<Floor>();
+            if (!floor.hasResetPlayerJump)
+            {
+                jumpsUsed = 0;
+                UpdateMaterial();
+                floor.hasResetPlayerJump = true;
+            }
         }
     }
 }

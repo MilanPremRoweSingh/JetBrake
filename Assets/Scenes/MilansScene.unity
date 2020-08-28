@@ -315,6 +315,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &1561653773 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8375762556088753905, guid: a30e4f6e30303ea4d9941917c31dedef, type: 3}
+  m_PrefabInstance: {fileID: 8375762556485557464}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5278687a1fd81054cb00eb7e75bae5e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1616346827
 GameObject:
   m_ObjectHideFlags: 0
@@ -536,11 +547,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf0b2197a6d7af84081f623cc10af79a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelGenerator: {fileID: 1561653773}
   terminalVelocity: 5
+  noJump: {fileID: 0}
   baseJump: {fileID: 2100000, guid: 05263dc80f9241746b102176e576f3a2, type: 2}
   secondJump: {fileID: 2100000, guid: 65222baea1447a24a8209878c7bb87c9, type: 2}
   thirdJump: {fileID: 2100000, guid: 1bc67c5557b0c4c49872ee6c73ae2dbb, type: 2}
-  postFourthJump: {fileID: 2100000, guid: dcf15c89aa9be7d459ab9383d5b577fc, type: 2}
+  fourthJump: {fileID: 2100000, guid: 0822c1691d7814b4e884aabae8f6b0eb, type: 2}
 --- !u!1001 &8375762556485557464
 PrefabInstance:
   m_ObjectHideFlags: 0
