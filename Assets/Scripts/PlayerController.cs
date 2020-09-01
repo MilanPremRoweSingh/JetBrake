@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour
         Vector3 dashVelocity = Vector3.zero;
         if (Input.GetButtonDown("Jump"))
         {
-            if (rigidBody.velocity.y <= 0f && jumpsUsed < 4)
+            if (rigidBody.velocity.y <= 0f)
             {
                 jumpVelocity = Vector3.up * (1f + jumpsUsed * 0.5f) * terminalVelocity;
                 jumpsUsed++;
