@@ -15,6 +15,11 @@ public class PlayerController : MonoBehaviour
     public Material secondJump;
     public Material thirdJump;
     public Material postFourthJump;
+    public float maxDashTime = 5.0f;
+    public float dashStoppingSpeed = 0.1f;
+    Vector3 direction = Vector3.zero;
+
+    private float currDashTime;
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +28,7 @@ public class PlayerController : MonoBehaviour
         rigidBody = GetComponent<Rigidbody>();
         rigidBody.drag = 0f;
         startPos = transform.position;
+        currDashTime = maxDashTime;
     }
 
     // Update is called once per frame
@@ -33,7 +39,8 @@ public class PlayerController : MonoBehaviour
             rigidBody.drag = 0;
         }
         Vector3 jumpVelocity = Vector3.zero;
-        if (Input.GetKeyDown("space"))
+        Vector3 dashVelocity = Vector3.zero;
+        if (Input.GetButtonDown("Jump"))
         {
             if (rigidBody.velocity.y <= 0f && jumpsUsed < 4)
             {
@@ -42,9 +49,28 @@ public class PlayerController : MonoBehaviour
                 UpdateMaterial();
             }
         }
+        if (Input.GetButtonDown("Fire3"))
+        {
+            currDashTime = 0.0f;
+            direction = Vector3.left;
+            jumpsUsed++;
+            UpdateMaterial();
+        }
+        if (Input.GetButtonDown("Fire2"))
+        {
+            currDashTime = 0.0f;
+            direction = Vector3.right;
+            jumpsUsed++;
+            UpdateMaterial();
+        }
+        if (currDashTime < maxDashTime)
+        {
+            dashVelocity = direction * (1f + jumpsUsed * 0.5f) * 50f;
+            currDashTime += dashStoppingSpeed;
+        }
         float sign = Mathf.Round(Input.GetAxisRaw("Horizontal"));
         Vector3 horzVelocity = Vector3.right * sign * terminalVelocity;
-        rigidBody.velocity = new Vector3(horzVelocity.x, jumpVelocity.y > 0f ? jumpVelocity.y : rigidBody.velocity.y);
+        rigidBody.velocity = new Vector3(Mathf.Abs(dashVelocity.x) > 0f ? dashVelocity.x : horzVelocity.x, jumpVelocity.y > 0f ? jumpVelocity.y : Mathf.Abs(dashVelocity.x) > 0f ? 0f : rigidBody.velocity.y);
     }
 
     void UpdateMaterial()
