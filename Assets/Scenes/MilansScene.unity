@@ -459,7 +459,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 05263dc80f9241746b102176e576f3a2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -539,6 +539,8 @@ MonoBehaviour:
   secondJump: {fileID: 2100000, guid: 65222baea1447a24a8209878c7bb87c9, type: 2}
   thirdJump: {fileID: 2100000, guid: 1bc67c5557b0c4c49872ee6c73ae2dbb, type: 2}
   postFourthJump: {fileID: 2100000, guid: 0822c1691d7814b4e884aabae8f6b0eb, type: 2}
+  maxDashTime: 5
+  dashStoppingSpeed: 0.1
 --- !u!1001 &8375762556485557464
 PrefabInstance:
   m_ObjectHideFlags: 0
