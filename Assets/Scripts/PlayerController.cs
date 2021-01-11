@@ -4,18 +4,22 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public AnimationCurve animationCurve;
+
     public CameraController cameraController;
     public LevelGenerator levelGenerator;
 
     private Rigidbody rigidBody;
     public float terminalVelocity;
     private int jumpsUsed = 0;
+    public int maxDashCount = 2;
+    private int currDashCount = 0;
     private Vector3 startPos;
     public Material baseJump;
     public Material secondJump;
     public Material thirdJump;
     public Material postFourthJump;
-    public float maxDashTime = 5.0f;
+    public float maxDashTime = 15.0f;
     public float dashStoppingSpeed = 0.1f;
     Vector3 direction = Vector3.zero;
 
@@ -49,28 +53,20 @@ public class PlayerController : MonoBehaviour
                 UpdateMaterial();
             }
         }
-        if (Input.GetButtonDown("Fire3"))
+        float sign = Mathf.Round(Input.GetAxisRaw("Horizontal"));
+        if (Input.GetButtonDown("Fire3") && currDashCount < maxDashCount)
         {
+            currDashCount++;
             currDashTime = 0.0f;
-            direction = Vector3.left;
-            jumpsUsed++;
-            UpdateMaterial();
-        }
-        if (Input.GetButtonDown("Fire2"))
-        {
-            currDashTime = 0.0f;
-            direction = Vector3.right;
-            jumpsUsed++;
-            UpdateMaterial();
+            direction = new Vector3(sign, 0, 0);
         }
         if (currDashTime < maxDashTime)
         {
-            dashVelocity = direction * (1f + jumpsUsed * 0.5f) * 50f;
+            dashVelocity = direction * animationCurve.Evaluate(currDashTime / maxDashTime) * 35f;
             currDashTime += dashStoppingSpeed;
         }
-        float sign = Mathf.Round(Input.GetAxisRaw("Horizontal"));
         Vector3 horzVelocity = Vector3.right * sign * terminalVelocity;
-        rigidBody.velocity = new Vector3(Mathf.Abs(dashVelocity.x) > 0f ? dashVelocity.x : horzVelocity.x, jumpVelocity.y > 0f ? jumpVelocity.y : Mathf.Abs(dashVelocity.x) > 0f ? 0f : rigidBody.velocity.y);
+        rigidBody.velocity = new Vector3(Mathf.Abs(dashVelocity.x) > 0f ? dashVelocity.x : horzVelocity.x, jumpVelocity.y > 0f ? jumpVelocity.y : rigidBody.velocity.y);
     }
 
     void UpdateMaterial()
@@ -86,6 +82,7 @@ public class PlayerController : MonoBehaviour
         transform.position = startPos;
         rigidBody.velocity = Vector3.zero;
         jumpsUsed = 0;
+        currDashCount = 0;
         UpdateMaterial();
         levelGenerator.ResetFloors();
         cameraController.ResetPosition();
@@ -103,6 +100,7 @@ public class PlayerController : MonoBehaviour
             if (!floor.hasResetPlayerJump)
             {
                 jumpsUsed = 0;
+                currDashCount = 0;
                 UpdateMaterial();
                 floor.hasResetPlayerJump = true;
             }
